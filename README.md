@@ -1,5 +1,3 @@
-# backend-api
+# bus-app-backend
 
-Base template for personal projects
-
-Added jsonwebtoken function
+Backend for bus-app
