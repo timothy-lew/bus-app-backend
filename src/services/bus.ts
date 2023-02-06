@@ -24,7 +24,7 @@ export class BusService extends BaseService {
             BusStopCode: stopNumber,
           },
           headers: {
-            AccountKey: 'ZbRKQU+sTGeHkcgjAACh6g==',
+            AccountKey: this.config.AccountKey,
           },
         }
       );
@@ -51,7 +51,7 @@ export class BusService extends BaseService {
           }`,
           {
             headers: {
-              AccountKey: 'ZbRKQU+sTGeHkcgjAACh6g==',
+              AccountKey: this.config.AccountKey,
             },
           }
         );

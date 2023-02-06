@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 
 // .env file is not in the same dir as this file
-require('dotenv').config({ path: __dirname + '/../../.env' })
+require('dotenv').config({ path: __dirname + '/../../.env' });
 
 const pinoCommonSettings = {
   timestamp: () => `,"time":"${new Date(Date.now()).toISOString()}"`,
@@ -11,12 +11,12 @@ const pinoCommonSettings = {
     },
   },
   redact: {
-    paths: ["req.headers.authorization", "err.config.auth.*", "config.auth.*"],
+    paths: ['req.headers.authorization', 'err.config.auth.*', 'config.auth.*'],
   },
 };
 
 const dbCommonSettings = {
-  dialect: "postgres",
+  dialect: 'postgres',
   dialectOptions: {
     supportBigNumbers: true,
     bigNumberStrings: false,
@@ -34,16 +34,17 @@ module.exports = {
       //logging: false,
     },
     api: {
-      prefix: "",
+      prefix: '',
       corsAllowedOrigins: '*',
     },
     pino: {
-      level: "debug",
+      level: 'debug',
       ...pinoCommonSettings,
     },
     token: {
       secret: '123',
-      expire_in: '10h'
+      expire_in: '10h',
     },
+    AccountKey: 'ZbRKQU+sTGeHkcgjAACh6g==',
   },
 };

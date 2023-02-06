@@ -1,6 +1,6 @@
-import type { NextFunction, Request, Response } from "express";
-import type { Services } from "../services";
-import { BaseController } from "./base";
+import type { NextFunction, Request, Response } from 'express';
+import type { Services } from '../services';
+import { BaseController } from './base';
 
 export class UserController extends BaseController {
   constructor(services: Services) {
@@ -20,7 +20,7 @@ export class UserController extends BaseController {
     console.log('testing');
     const result = await this.services.User.test();
 
-    res.status(200).send(result.data);
+    res.status(200).send(result);
   }
 
   async get(req: Request, res: Response, next: NextFunction) {
@@ -35,7 +35,10 @@ export class UserController extends BaseController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await this.services.User.create(req.body.email, req.body.password);
+      const user = await this.services.User.create(
+        req.body.email,
+        req.body.password
+      );
 
       res.status(200).send(user);
     } catch (err) {
@@ -45,10 +48,13 @@ export class UserController extends BaseController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await this.services.User.login(req.body.email, req.body.password);
+      const user = await this.services.User.login(
+        req.body.email,
+        req.body.password
+      );
       const token = await this.services.JsonWebToken.sign(user.email);
 
-      res.status(200).send({user,token});
+      res.status(200).send({ user, token });
     } catch (err) {
       next(err);
     }
@@ -60,7 +66,7 @@ export class UserController extends BaseController {
 
       res.status(200).send({
         email: user!.email,
-        name: user?.name
+        name: user?.name,
       });
     } catch (err) {
       next(err);
@@ -70,7 +76,11 @@ export class UserController extends BaseController {
   async reset(req: Request, res: Response, next: NextFunction) {
     try {
       const user = await this.services.JsonWebToken.checkToken(req);
-      const response = await this.services.User.resetPassword(req.body.old_password, req.body.new_password, user);
+      const response = await this.services.User.resetPassword(
+        req.body.old_password,
+        req.body.new_password,
+        user
+      );
 
       res.status(200).send(response);
     } catch (err) {

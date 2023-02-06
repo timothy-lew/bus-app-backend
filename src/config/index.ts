@@ -1,6 +1,6 @@
-import type { LoggerOptions } from "pino";
-import type { Options } from "sequelize";
-import config from "./config";
+import type { LoggerOptions } from 'pino';
+import type { Options } from 'sequelize';
+import config from './config';
 
 export type Config = {
   db: {
@@ -20,10 +20,11 @@ export type Config = {
   token: {
     secret: string;
     expire_in: string;
-  },
+  };
+  AccountKey: string;
 };
 
 export function getConfig(): Config {
-  const env = process.env.NODE_ENV || "development";
+  const env = process.env.NODE_ENV || 'development';
   return config[env as keyof typeof config] as Config;
 }
