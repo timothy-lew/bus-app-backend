@@ -10,7 +10,6 @@
     "db:migrate:create": "npx ts-node src/db/migrate create --name",
     "prebuild": "rm -rf ./dist",
     "build": "tsc",
-    "postbuild": "copyfiles -u 1 './src/**/*.*[mq]l' './src/**/*.js*' ./dist",
     "start": "node dist/index.js"
   },
   "repository": {
