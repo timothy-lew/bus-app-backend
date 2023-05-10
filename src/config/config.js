@@ -45,6 +45,6 @@ module.exports = {
       secret: '123',
       expire_in: '10h',
     },
-    AccountKey: 'ZbRKQU+sTGeHkcgjAACh6g==',
+    AccountKey: process.env.ACCOUNT_KEY,
   },
 };
