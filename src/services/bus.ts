@@ -1,6 +1,5 @@
-import { Sequelize } from 'sequelize';
-import type { Models } from '../db/models';
 import { InvalidRequest } from '../types/errors';
+import type { MongoClient } from 'mongodb';
 
 // services
 import { BaseService } from './base';
@@ -11,8 +10,8 @@ import type { Config } from '../config';
 const axios = require('axios');
 
 export class BusService extends BaseService {
-  constructor(models: Models, logger: Logger, db: Sequelize, config: Config) {
-    super(models, logger, db, config);
+  constructor(logger: Logger, config: Config, mongo: MongoClient) {
+    super(logger, config, mongo);
   }
 
   async getBusStopByNumber(stopNumber: string) {
@@ -29,7 +28,7 @@ export class BusService extends BaseService {
         }
       );
 
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -39,36 +38,23 @@ export class BusService extends BaseService {
 
   async getBusStopByName(name: string) {
     try {
-      // there are ~5080 bus stops
+      const db = this.mongo.db('bus');
+      const collection = db.collection('buses');
 
-      const loop = 0;
-      let res = [] as any;
-
-      for (let i = 0; i < 11; i++) {
-        const busStops = await axios.get(
-          `http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=${
-            i * 500
-          }`,
+      // search db using regex
+      const bus_stops = await collection
+        .find(
           {
-            headers: {
-              AccountKey: this.config.AccountKey,
-            },
-          }
-        );
+            $or: [
+              { RoadName: { $regex: new RegExp(name, 'i') } },
+              { Description: { $regex: new RegExp(name, 'i') } },
+            ],
+          },
+          { projection: { _id: 0 } } // not show _id
+        )
+        .toArray();
 
-        let stops = busStops.data.value;
-
-        for (let stop of stops) {
-          if (
-            stop.RoadName.toLowerCase().includes(name.toLowerCase()) ||
-            stop.Description.toLowerCase().includes(name.toLowerCase())
-          ) {
-            res.push(stop);
-          }
-        }
-      }
-
-      return res;
+      return bus_stops;
     } catch (error) {
       console.error(error);
       throw new InvalidRequest();

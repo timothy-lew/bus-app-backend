@@ -4,23 +4,14 @@ import config from './config';
 
 export type Config = {
   db: {
-    database: string;
     username: string;
     password: string;
-    host: string;
-    // define: {
-    //   schema: string;
-    // };
   } & Options;
   api: {
     prefix: string;
     corsAllowedOrigins: string;
   };
   pino?: LoggerOptions;
-  token: {
-    secret: string;
-    expire_in: string;
-  };
   AccountKey: string;
 };
 

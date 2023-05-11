@@ -1,31 +1,22 @@
 import type { Logger } from 'pino';
-import type { Sequelize } from 'sequelize';
-import type { Models } from '../db/models';
+import type { MongoClient } from 'mongodb';
 import type { Config } from '../config';
-import { UserService } from './user';
-import { CryptService } from './crypt';
-import { JsonWebTokenService } from './jsonwebtoken';
 import { BusService } from './bus';
 
 export type Services = {
-	User: UserService;
-	Crypt: CryptService;
-	JsonWebToken: JsonWebTokenService;
-	Bus: BusService;
+  Bus: BusService;
 };
 
 export {};
 
-export function initServices(models: Models, logger: Logger, db: Sequelize, config: Config): Services {
-	const JsonWebToken = new JsonWebTokenService(models, logger, db, config);
-	const Crypt = new CryptService(models, logger, db, config);
-	const User = new UserService(models, logger, db, config, Crypt, JsonWebToken);
-	const Bus = new BusService(models, logger, db, config);
+export function initServices(
+  logger: Logger,
+  config: Config,
+  mongo: MongoClient
+): Services {
+  const Bus = new BusService(logger, config, mongo);
 
-	return {
-		JsonWebToken,
-		Crypt,
-		User,
-		Bus,
-	};
+  return {
+    Bus,
+  };
 }

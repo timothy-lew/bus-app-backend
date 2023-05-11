@@ -1,18 +1,15 @@
-import type { Logger } from "pino";
-import type { Sequelize } from "sequelize";
-import type { Models } from "../db/models";
-import type { Config } from "../config";
+import type { Logger } from 'pino';
+import type { Config } from '../config';
+import type { MongoClient } from 'mongodb';
 
 export abstract class BaseService {
-  protected models: Models;
   protected logger: Logger;
-  protected db: Sequelize;
   protected config: Config;
+  protected mongo: MongoClient;
 
-  constructor(models: Models, logger: Logger, db: Sequelize, config: Config) {
-    this.models = models;
+  constructor(logger: Logger, config: Config, mongo: MongoClient) {
     this.logger = logger;
-    this.db = db;
     this.config = config;
+    this.mongo = mongo;
   }
 }

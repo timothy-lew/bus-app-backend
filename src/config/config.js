@@ -15,23 +15,11 @@ const pinoCommonSettings = {
   },
 };
 
-const dbCommonSettings = {
-  dialect: 'postgres',
-  dialectOptions: {
-    supportBigNumbers: true,
-    bigNumberStrings: false,
-  },
-};
-
 module.exports = {
   development: {
     db: {
-      database: process.env.DEV_DB_NAME,
-      username: process.env.DEV_DB_USER,
-      password: process.env.DEV_DB_PASSWORD,
-      host: process.env.DEV_DB_HOST,
-      ...dbCommonSettings,
-      //logging: false,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
     },
     api: {
       prefix: '',
@@ -40,10 +28,6 @@ module.exports = {
     pino: {
       level: 'debug',
       ...pinoCommonSettings,
-    },
-    token: {
-      secret: '123',
-      expire_in: '10h',
     },
     AccountKey: process.env.ACCOUNT_KEY,
   },
