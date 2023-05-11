@@ -43,7 +43,18 @@ app.use(
 const mongo = new MongoClient(
   `mongodb+srv://${config.db.username}:${config.db.password}@cluster0.mbbwtrn.mongodb.net/?retryWrites=true&w=majority`
 );
-mongo.connect();
+async function run() {
+  try {
+    await mongo.connect();
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err.stack);
+    }
+    throw new Error();
+  }
+}
+run().catch(console.dir);
+
 const services: Services = initServices(logger, config, mongo);
 const controllers = initControllers(services);
 
