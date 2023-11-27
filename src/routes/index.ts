@@ -5,8 +5,9 @@ export default function (controllers: Controllers) {
   const router = Router();
 
   // bus
-  router.get('/busstop/number/:stopNumber', controllers.Bus.getBusStopByNumber);
-  router.get('/busstop/name/:name', controllers.Bus.getBusStopByName);
+  router.get('/buses/code/:stopNumber', controllers.Bus.getBusesByCode);
+  router.get('/busstops/name/:name', controllers.Bus.getBusStopsByName);
+  router.get('/busstop/code/:busStopCode', controllers.Bus.getBusStopByCode);
 
   return router;
 }
