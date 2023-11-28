@@ -11,6 +11,7 @@ export class BusController extends BaseController {
     this.getBusesByCode = this.getBusesByCode.bind(this);
     this.getBusStopsByName = this.getBusStopsByName.bind(this);
     this.getBusStopByCode = this.getBusStopByCode.bind(this);
+    this.getBusStopsByLatLong = this.getBusStopsByLatLong.bind(this);
   }
 
   async getBusesByCode(req: Request, res: Response, next: NextFunction) {
@@ -19,7 +20,6 @@ export class BusController extends BaseController {
         req.params.stopNumber
       );
 
-      // res.status(200).send(result.data);
       res.status(200).send(result);
     } catch (err) {
       next(err);
@@ -30,7 +30,6 @@ export class BusController extends BaseController {
     try {
       const result = await this.services.Bus.getBusStopsByName(req.params.name);
 
-      // res.status(200).send(result.data);
       res.status(200).send(result);
     } catch (err) {
       next(err);
@@ -41,7 +40,16 @@ export class BusController extends BaseController {
     try {
       const result = await this.services.Bus.getBusStopByCode(req.params.busStopCode);
 
-      // res.status(200).send(result.data);
+      res.status(200).send(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getBusStopsByLatLong(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await this.services.Bus.getBusStopsByLatLong(req.params.latitude, req.params.longitude);
+
       res.status(200).send(result);
     } catch (err) {
       next(err);

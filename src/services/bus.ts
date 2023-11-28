@@ -80,4 +80,30 @@ export class BusService extends BaseService {
       throw new InvalidRequest();
     }
   }
+
+  async getBusStopsByLatLong(latitude: string, longitude: string) {
+    try {
+      const db = this.mongo.db('bus');
+      const collection = db.collection('buses');
+
+      // 400m
+      let range = 0.004
+      const bus_stops = await collection
+        .find( 
+          {
+          $and: [
+              { Latitude: { $gte: Number(latitude) - range, $lte: Number(latitude) + range } },
+              { Longitude: { $gte: Number(longitude) - range, $lte: Number(longitude) + range } },
+            ],
+          },
+        { projection: { _id: 0 } } // not show _id
+        )
+        .toArray();
+
+      return bus_stops
+    } catch (error) {
+      console.error(error);
+      throw new InvalidRequest();
+    }
+  }
 }
