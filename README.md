@@ -58,3 +58,71 @@ $ npm i
 ```console
 $ npm run dev
 ```
+
+# Docker
+
+## Build the image
+
+    docker build -t backendapi .
+
+## List the images
+
+    docker images
+
+## Run in detached mode. Container name: backend
+
+    docker run -d --name backend -p 3000:3000 backendapi
+
+## Stop the container
+
+    docker stop backend
+
+# Docker compose
+
+## Build the app
+
+    docker compose build
+
+## Run the app
+
+    docker compose up -d
+
+## Cleanup
+
+    docker compose down
+
+# Kubernetes
+
+## Create the Deployment
+
+    kubectl apply -f deploy-backendapi.yml
+
+## Get the pods list
+
+    kubectl get pods -o wide
+
+## Describe the pod
+
+    kubectl describe pod backendapi
+
+## Get the Deployment info
+
+    kubectl get deploy
+    kubectl describe deploy backendapi
+
+## Get the ReplicaSet name
+
+    kubectl get rs
+
+## Describe the ReplicaSet
+
+    kubectl describe rs
+
+## Create the Service
+
+    kubectl apply -f service-backendapi.yml
+
+## Cleanup
+
+    kubectl delete -f deploy-backendapi.yml
+    kubectl delete -f service-backendapi.yml

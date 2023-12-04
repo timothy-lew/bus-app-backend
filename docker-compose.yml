@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  backendapi:
+    build: . # image built from DockerFile in current dir
+    image: node:16
+    working_dir: /app
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+    env_file:
+      - .env
+    volumes:
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - ./.env:/app/.env
+      - .:/app
