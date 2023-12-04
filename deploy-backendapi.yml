@@ -14,7 +14,15 @@ spec:
     spec:
       containers:
         - name: backendapi
-          image: node:16
+          image: timothyjblew/bus-backend # pull from docker hub
           ports:
             - containerPort: 3000
           command: ['npm', 'run', 'dev']
+          resources:
+            requests:
+              cpu: 300m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi 
+      
